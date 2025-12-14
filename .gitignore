@@ -1,0 +1,2 @@
+# Exclude SCTP folder from version control
+/SCTP/
