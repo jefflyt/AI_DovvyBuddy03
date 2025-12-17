@@ -1,8 +1,9 @@
 # PR-03: RAG Service — Content Ingestion & Vector Search
 
-**Branch:** `feat/rag-service` **Epic:** DovvyBuddy MVP - Phase 0 **Status:**
-Not Started **Estimated Effort:** 10-12 hours (6-8 hours content curation + 4
-hours implementation)
+**Branch:** `feat/rag-service`
+**Epic:** DovvyBuddy MVP - Phase 0
+**Status:** Not Started
+**Estimated Effort:** 10-12 hours (6-8 hours content curation + 4 hours implementation)
 
 ---
 

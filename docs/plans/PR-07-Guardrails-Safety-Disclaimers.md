@@ -1,7 +1,9 @@
 # PR-07: Out-of-Scope Handling & Safety Disclaimers
 
-**Branch:** `feat/guardrails` **Epic:** DovvyBuddy MVP - Phase 0 **Status:** Not
-Started **Estimated Effort:** 4-6 hours
+**Branch:** `feat/guardrails`
+**Epic:** DovvyBuddy MVP - Phase 0
+**Status:** Not Started
+**Estimated Effort:** 4-6 hours
 
 ---
 

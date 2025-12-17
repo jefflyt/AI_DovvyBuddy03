@@ -1,2 +1,10 @@
+node_modules
+.next
+.env
+.env.local
+dist
+coverage
+/.vscode
+prisma/dev.db
 # Exclude SCTP folder from version control
 /SCTP/

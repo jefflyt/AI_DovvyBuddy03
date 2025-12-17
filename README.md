@@ -1,3 +1,39 @@
+# DovvyBuddy — Starter
+
+This repository contains a starter Next.js 14+ project scaffold for the DovvyBuddy MVP.
+
+Quick start
+
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Copy `.env.example` to `.env` and fill values
+
+```bash
+cp .env.example .env
+# edit .env
+```
+
+3. Run development server
+
+```bash
+npm run dev
+```
+
+4. Verify health endpoint
+
+```bash
+curl http://localhost:3000/api/health
+# -> { "status": "ok" }
+```
+
+Notes
+
+- This PR focuses on bootstrapping the project structure and tooling. Database models, content ingestion, and chat logic are implemented in subsequent PRs (PR-02..PR-05).
+- GROQ SDK is included for Phase 0 testing. The production LLM provider will be finalized in PR-11.
 # AI-Driven Development Workflow
 
 This repository is configured for **AI‑assisted software development** using GitHub Copilot in **Plan Mode** together with a set of powerful custom prompts.
