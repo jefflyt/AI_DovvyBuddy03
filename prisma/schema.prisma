@@ -7,4 +7,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Initial schema: kept intentionally empty for PR-02
+model Destination {
+  id         String     @id @default(cuid())
+  name       String
+  country    String
+  isActive   Boolean    @default(true) @map("is_active")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+  
+  diveSites  DiveSite[]
+  diveShops  DiveShop[]
+  leads      Lead[]
+  
+  @@map("destinations")
+}
+
+model DiveSite {
+  id              String      @id @default(cuid())
+  destinationId   String      @map("destination_id")
+  name            String
+  difficultyBand  String      @map("difficulty_band") // "beginner", "intermediate", "advanced"
+  accessType      String      @map("access_type") // "shore", "boat", "liveaboard"
+  isActive        Boolean     @default(true) @map("is_active")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+  
+  destination     Destination @relation(fields: [destinationId], references: [id])
+  
+  @@index([destinationId])
+  @@index([isActive])
+  @@map("dive_sites")
+}
+
+model DiveShop {
+  id            String      @id @default(cuid())
+  destinationId String      @map("destination_id")
+  name          String
+  contactEmail  String      @map("contact_email")
+  websiteUrl    String?     @map("website_url")
+  isPartner     Boolean     @default(false) @map("is_partner")
+  isActive      Boolean     @default(true) @map("is_active")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  leads         Lead[]
+  
+  @@index([destinationId])
+  @@index([isActive])
+  @@map("dive_shops")
+}
+
+model Lead {
+  id               String    @id @default(cuid())
+  createdAt        DateTime  @default(now()) @map("created_at")
+  name             String
+  email            String
+  destinationId    String?   @map("destination_id")
+  preferredShopId  String?   @map("preferred_shop_id")
+  contextJson      Json      @map("context_json") // { certLevel?, interests?, travelWindow?, highlights? }
+  deliveryStatus   String    @default("pending") @map("delivery_status") // "pending", "delivered", "failed"
+  deliveredAt      DateTime? @map("delivered_at")
+  
+  destination      Destination? @relation(fields: [destinationId], references: [id])
+  preferredShop    DiveShop?    @relation(fields: [preferredShopId], references: [id])
+  
+  @@index([destinationId])
+  @@index([deliveryStatus])
+  @@map("leads")
+}
+
+model Session {
+  id             String   @id @default(cuid())
+  sessionToken   String   @unique @map("session_token")
+  createdAt      DateTime @default(now()) @map("created_at")
+  lastActivityAt DateTime @default(now()) @map("last_activity_at")
+  contextJson    Json     @map("context_json") // conversation history, user profile hints
+  
+  @@index([sessionToken])
+  @@map("sessions")
+}

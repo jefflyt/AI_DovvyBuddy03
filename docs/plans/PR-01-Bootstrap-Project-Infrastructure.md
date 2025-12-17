@@ -23,8 +23,11 @@ Establish the foundational Next.js project infrastructure for DovvyBuddy, config
 ### Assumptions
 
 - **Stack**: Next.js 14+ with App Router, TypeScript, Tailwind CSS, Prisma, Vercel hosting.
-- **LLM Providers**: GROQ for Phase 0 testing, Google AI SDK for RAG embeddings.
-- **Email**: SendGrid for lead delivery.
+- **LLM Architecture**:
+  - **Google ADK (Genkit)**: Orchestrates conversation flow (search → analyze → draft)
+  - **Google AI SDK (Gemini)**: Provides LLM reasoning and generation
+  - **GROQ**: Used for embeddings and RAG (will evaluate alternatives after testing)
+- **Email**: Brevo for lead delivery.
 - **Database**: PostgreSQL (managed, e.g., Neon, Supabase, or Vercel Postgres).
 
 ---
@@ -42,7 +45,7 @@ Establish the foundational Next.js project infrastructure for DovvyBuddy, config
 ### In Scope
 
 - ✅ Next.js project initialization with TypeScript, App Router, Tailwind CSS.
-- ✅ Install all core dependencies (Prisma, GROQ SDK, Google AI SDK, Zod, SendGrid).
+- ✅ Install all core dependencies (Prisma, GROQ SDK, Google AI SDK, Genkit, Zod, Brevo).
 - ✅ Environment variable validation on app startup.
 - ✅ Basic health check endpoint.
 - ✅ Vercel project configuration and first successful deployment.
@@ -89,8 +92,8 @@ Establish the foundational Next.js project infrastructure for DovvyBuddy, config
 
 ### Infra / Config
 
-- **Environment Variables**: 
-  - `DATABASE_URL`, `GROQ_API_KEY`, `GOOGLE_AI_API_KEY`, `SENDGRID_API_KEY`, `NEXT_PUBLIC_APP_URL`, `SESSION_SECRET`.
+- **Environment Variables**:
+  - `DATABASE_URL`, `GROQ_API_KEY`, `GOOGLE_AI_API_KEY`, `BREVO_API_KEY`, `NEXT_PUBLIC_APP_URL`, `SESSION_SECRET`.
   - Create `.env.example` with placeholders and comments.
 - **Vercel Setup**:
   - Link Git repository to Vercel project.
@@ -152,9 +155,11 @@ Install all required packages for database, LLM SDKs, email, and validation.
 
 **Backend Changes**
 
-- ✅ Run: `npm install prisma @prisma/client groq-sdk @google/generative-ai zod @sendgrid/mail`.
+- ✅ Run: `npm install prisma @prisma/client groq-sdk @google/generative-ai genkit zod @getbrevo/brevo`.
 - ✅ Run: `npx prisma init` to create `prisma/schema.prisma` and `.env` template.
-- ✅ **Upgraded SendGrid to v8.1.6** (resolved axios vulnerabilities from v7).
+- ✅ **Upgraded Brevo to v3.0.1** (eliminated critical/moderate vulnerabilities).
+- ✅ **Added Google AI SDK** (Gemini model for chat orchestration).
+- ✅ **Added Genkit** (Google ADK for workflow orchestration).
 
 **Frontend Changes**
 
@@ -194,7 +199,7 @@ Create a centralized environment validation module that fails fast with clear er
   - ✅ Export validated `env` object.
   - ✅ Call validation on module load (top-level).
 - ✅ Required variables:
-  - `DATABASE_URL`, `GROQ_API_KEY`, `GOOGLE_AI_API_KEY`, `SENDGRID_API_KEY`, `NEXT_PUBLIC_APP_URL`, `SESSION_SECRET`.
+  - `DATABASE_URL`, `GROQ_API_KEY`, `GOOGLE_AI_API_KEY`, `BREVO_API_KEY`, `NEXT_PUBLIC_APP_URL`, `SESSION_SECRET`.
 
 **Frontend Changes**
 
@@ -204,22 +209,27 @@ Create a centralized environment validation module that fails fast with clear er
 - None.
 
 **Infra / Config**
+
 - ✅ Create `.env.example`:
+
   ```env
   DATABASE_URL="postgresql://user:password@localhost:5432/dovvybuddy"
   GROQ_API_KEY="your-groq-api-key"
   GOOGLE_AI_API_KEY="your-google-ai-api-key"
-  SENDGRID_API_KEY="your-sendgrid-api-key"
+  BREVO_API_KEY="your-brevo-api-key"
   NEXT_PUBLIC_APP_URL="http://localhost:3000"
   SESSION_SECRET="your-session-secret"
   ```
+
 - ✅ Document each variable's purpose in comments.
 
 **Testing**
+
 - ✅ Manual: Remove a required env var, run `npm run dev`, verify app fails with clear error message showing which variable is missing.
 - ✅ Manual: Restore env vars, verify app starts successfully.
 
 **Notes / Risks**
+
 - Use Zod `.min(1)` for all required strings to catch empty values.
 
 ---
@@ -232,48 +242,38 @@ Create a simple API endpoint that confirms the app is running and can respond to
 **Status**: ✅ Completed
 
 **Backend Changes**
+
 - ✅ Create `app/api/health/route.ts`:
   - ✅ `GET` handler returns JSON: `{ "status": "ok" }`.
   - ✅ Return 200 status code.
 
-**Frontend Changes**
-- None.
-
-**Data Changes**
-- None.
-
-**Infra / Config**
-- None.
+**Frontend Changes** - None.
+**Data Changes** - None.
+**Infra / Config** - None.
 
 **Testing**
+
 - ✅ Manual: Run `npm run dev`, navigate to `http://localhost:3000/api/health`, verify returns `{ "status": "ok" }`.
 - ✅ Manual: Use `curl http://localhost:3000/api/health`, verify 200 response.
 
-**Notes / Risks**
-- This endpoint will be used for uptime monitoring in production (PR-12).
+**Notes / Risks** - This endpoint will be used for uptime monitoring in production (PR-12).
 
 ---
 
 ### Step 5: Create README Documentation
 
-**Goal**  
-Provide clear setup instructions so any developer can clone and run the project.
+**Goal** - Provide clear setup instructions so any developer can clone and run the project.
 
 **Status**: ✅ Completed
-
-**Backend Changes**
-- None.
-
-**Frontend Changes**
-- None.
-
-**Data Changes**
-- None.
+**Backend Changes** - None.
+**Frontend Changes** - None.
+**Data Changes** - None.
 
 **Infra / Config**
+
 - ✅ Create `README.md` with:
   - ✅ **Project Overview**: Brief description of DovvyBuddy.
-  - ✅ **Tech Stack**: Next.js 14+, TypeScript, Prisma, Tailwind, GROQ (temp), Google AI SDK, SendGrid.
+  - ✅ **Tech Stack**: Next.js 14+, TypeScript, Prisma, Tailwind, Google ADK (Genkit), Google AI SDK (Gemini), GROQ (embeddings), Brevo.
   - ✅ **Setup Instructions**:
     1. Clone repo.
     2. Install dependencies: `npm install`.
@@ -282,31 +282,21 @@ Provide clear setup instructions so any developer can clone and run the project.
   - ✅ **LLM Migration Plan**: Note that GROQ is for Phase 0 testing; production LLM will be selected in PR-11.
   - ✅ **Environment Variables**: Table listing each variable and its purpose.
 
-**Testing**
-- ✅ Manual: Follow README instructions from scratch to verify they work.
-
-**Notes / Risks**
-- Keep README concise; detailed architecture docs can come later.
+**Testing** - ✅ Manual: Follow README instructions from scratch to verify they work.
+**Notes / Risks** - Keep README concise; detailed architecture docs can come later.
 
 ---
 
 ### Step 6: Vercel Deployment Configuration
 
-**Goal**  
-Link the project to Vercel, configure environment variables, and verify the first deployment succeeds.
-
+**Goal** - Link the project to Vercel, configure environment variables, and verify the first deployment succeeds.
 **Status**: ✅ Completed (Vercel configured, preview deployments enabled)
-
-**Backend Changes**
-- None.
-
-**Frontend Changes**
-- None.
-
-**Data Changes**
-- None.
+**Backend Changes** - None.
+**Frontend Changes** - None.
+**Data Changes** - None.
 
 **Infra / Config**
+
 - ✅ **Vercel Setup**:
   - ✅ Create Vercel project via dashboard or CLI.
   - ✅ Link to Git repository (GitHub/GitLab/Bitbucket).
@@ -318,11 +308,13 @@ Link the project to Vercel, configure environment variables, and verify the firs
   - ✅ Navigate to preview URL `/api/health`, verify returns `{ "status": "ok" }`.
 
 **Testing**
+
 - ✅ Manual: Create PR, verify Vercel comment appears with preview URL.
 - ✅ Manual: Open preview URL, verify landing page loads.
 - ✅ Manual: Open preview URL `/api/health`, verify 200 response.
 
 **Notes / Risks**
+
 - **Risk**: Missing env vars on Vercel causes deployment failure.
   - **Mitigation**: Double-check all required variables are set in Vercel dashboard before first deployment.
 - **Risk**: Database connection fails if `DATABASE_URL` points to local DB.
@@ -333,33 +325,40 @@ Link the project to Vercel, configure environment variables, and verify the firs
 ## PR Plan
 
 ### Branch Name
+
 `feat/upgrade-sendgrid` (originally planned as `feat/bootstrap-project`)
 
 ### PR Title
+
 chore: upgrade SendGrid + CI + Tailwind
 
 ### PR Description
+
 - **Backend**: Add health check endpoint (`GET /api/health`) and environment variable validation (`src/lib/env.ts`).
 - **Frontend**: Initialize Next.js 14+ with TypeScript, App Router, and Tailwind CSS; placeholder landing page with hero component.
 - **Data**: Initialize Prisma client and schema file (empty models).
 - **Infra**: Configure Vercel project, set up automatic preview deployments, document all required environment variables in `.env.example`.
 - **CI/CD**: Add GitHub Actions workflow for lint, build, and audit checks.
-- **Dependencies**: Upgrade SendGrid to v8.1.6 (resolved axios vulnerabilities), pin ESLint to v8 for Next.js compatibility.
+- **Dependencies**: Use Brevo v3.0.1 for email (eliminated vulnerabilities), GROQ SDK for LLM + embeddings, pin ESLint to v8 for Next.js compatibility.
 - **Documentation**: Add README with setup instructions and LLM migration plan.
 
 **PR #2**: Merged on 2025-12-17 via squash merge (31 files changed, 7,006 insertions(+), 132 deletions(-))
 
 ### Risk & Rollback
+
 **Main Risks**:
+
 - Environment variable misconfiguration on Vercel (deployment fails).
 - Node.js version mismatch between local and Vercel (runtime errors).
 
 **Rollback Strategy**:
+
 - Revert commit if deployment fails.
 - Re-check environment variables in Vercel dashboard.
 - Verify `.nvmrc` and `package.json` engines field match Vercel's Node version.
 
 ### Verification Checklist
+
 - ✅ `npm run dev` starts locally without errors.
 - ✅ `http://localhost:3000` displays landing page.
 - ✅ `http://localhost:3000/api/health` returns `{ "status": "ok" }`.
@@ -369,7 +368,7 @@ chore: upgrade SendGrid + CI + Tailwind
 - ✅ README setup instructions are accurate (tested from scratch).
 - ✅ **Additional**: GitHub Actions CI passes (lint, build, audit).
 - ✅ **Additional**: ESLint v8 pinned for Next.js compatibility.
-- ✅ **Additional**: Zero npm audit vulnerabilities after SendGrid upgrade.
+- ✅ **Additional**: Reduced npm audit vulnerabilities to 3 (Next.js ESLint dev dependencies only, non-critical).
 
 ---
 
@@ -380,7 +379,7 @@ chore: upgrade SendGrid + CI + Tailwind
 All planned features have been successfully implemented and merged to main:
 
 1. **Next.js 14+ Project**: Initialized with TypeScript, App Router, and Tailwind CSS
-2. **Core Dependencies**: Installed Prisma, GROQ SDK, Google AI SDK, Zod, SendGrid v8.1.6
+2. **Core Dependencies**: Installed Prisma, GROQ SDK (embeddings), Google AI SDK (Gemini), Genkit (orchestration), Zod, Brevo v3.0.1
 3. **Environment Validation**: `src/lib/env.ts` with Zod schemas for all required variables
 4. **Health Endpoint**: `app/api/health/route.ts` returning `{"status":"ok"}`
 5. **Documentation**: README.md with setup instructions and LLM migration plan
@@ -391,16 +390,20 @@ All planned features have been successfully implemented and merged to main:
 - **GitHub Actions CI**: Added workflow for lint, build, and audit checks on all commits
 - **ESLint Configuration**: Pinned to v8.46.0 for Next.js compatibility (v9 flat config not supported)
 - **Tailwind Hero Component**: Added to landing page with gradient background and CTA buttons
-- **SendGrid Upgrade**: Upgraded from v7 to v8.1.6, resolving axios vulnerabilities
+- **Brevo Integration**: Switched from SendGrid to Brevo v3.0.1, eliminating critical/moderate vulnerabilities
+- **Google ADK + Gemini**: Added Google ADK (Genkit) for orchestration and Google AI SDK (Gemini) for LLM reasoning
+- **GROQ for Embeddings**: Using GROQ SDK for embeddings/RAG instead of Google AI embeddings
 - **Lockfile Sync**: Fixed package.json/package-lock.json synchronization issues
 - **DevDependencies**: Added eslint and eslint-config-next packages
 
 ### Technical Decisions
 
 1. **ESLint v8 Pin**: Next.js lint requires ESLint v8.x; v9 flat config not yet supported
-2. **SendGrid v8**: Upgraded to resolve 3 high-severity axios vulnerabilities in v7
-3. **GitHub Actions**: Chose to add CI early for continuous validation of PRs
-4. **Branch Naming**: Used `feat/upgrade-sendgrid` instead of `feat/bootstrap-project` to better reflect the scope
+2. **Brevo v3**: Switched from SendGrid to Brevo v3.0.1 for email delivery (eliminated critical/moderate vulnerabilities)
+3. **Google ADK Architecture**: Using Google ADK (Genkit) for orchestration + Google AI SDK (Gemini) for LLM reasoning
+4. **GROQ for Embeddings**: Using GROQ SDK for embeddings and RAG (evaluate alternatives after testing)
+5. **GitHub Actions**: Chose to add CI early for continuous validation of PRs
+6. **Branch Naming**: Used `feat/upgrade-sendgrid` instead of `feat/bootstrap-project` to better reflect the scope
 
 ### Lessons Learned
 

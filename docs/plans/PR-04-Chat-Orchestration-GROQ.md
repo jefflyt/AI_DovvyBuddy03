@@ -1,4 +1,4 @@
-# PR-04: Chat Orchestration & GROQ Integration
+# PR-04: Chat Orchestration & Google AI Integration
 
 **Branch:** `feat/chat-service`
 **Epic:** DovvyBuddy MVP - Phase 0
@@ -9,8 +9,14 @@
 
 ## Goal
 
-Implement chat orchestration with GROQ LLM, session management, and safety
-guardrails.
+Implement chat orchestration using Google ADK for workflow orchestration and Google AI SDK (Gemini) for LLM reasoning, with session management and safety guardrails.
+
+**Architecture:**
+
+- **Google ADK**: Orchestrates the conversation flow (search → analyze → respond)
+- **Google AI SDK**: Provides Gemini model for actual reasoning and generation
+- **Brevo API**: Sends lead capture emails when needed
+- **NEXT_PUBLIC_APP_URL**: Links leads back to dashboard
 
 ---
 
@@ -18,7 +24,8 @@ guardrails.
 
 **Included:**
 
-- Chat orchestration service (session context, RAG integration, LLM calls)
+- Chat orchestration service using Google ADK (session context, RAG integration, LLM calls)
+- Google AI SDK (Gemini) integration for reasoning and generation
 - Safety topic detection service
 - `/api/chat` endpoint with streaming support
 - System prompt engineering for covered destinations and safety disclaimers
@@ -70,10 +77,15 @@ class ChatService {
 2. Call `SafetyGuardService.detectSafetyTopics(userMessage)`
 3. If safety topic: inject disclaimer prompt
 4. Call `RAGService.retrieveContext(userMessage)` (top 5 chunks)
-5. Build prompt: system instructions + RAG context + conversation history
-6. Call GROQ API (groq-sdk) with streaming
-7. Update session context with user message + assistant response
-8. Return streaming response
+5. Use Google ADK to orchestrate the flow:
+   - **Search**: Retrieve relevant context from RAG
+   - **Analyze**: Detect intent and safety concerns
+   - **Draft**: Generate response using Gemini
+6. Build prompt: system instructions + RAG context + conversation history
+7. Call Google AI SDK (Gemini model) with streaming
+8. Update session context with user message + assistant response
+9. If lead capture triggered, use Brevo API to send email
+10. Return streaming response
 
 **LLM Interface Abstraction:**
 
@@ -82,8 +94,17 @@ interface LLMProvider {
   generateStream(prompt: string, context: string[]): AsyncIterable<string>
 }
 
-class GROQLLMProvider implements LLMProvider {
-  // GROQ-specific implementation
+class GoogleAILLMProvider implements LLMProvider {
+  // Google AI SDK (Gemini) implementation
+  // Uses @google/generative-ai package
+}
+
+class GoogleADKOrchestrator {
+  // Orchestrates: Search (RAG) → Analyze (Safety) → Draft (Gemini)
+  async orchestrateResponse(
+    userMessage: string,
+    sessionContext: SessionContext
+  ): Promise<AsyncIterable<string>>
 }
 ```
 
@@ -222,15 +243,34 @@ const sessions = new Map<string, SessionContext>()
 
 ### Environment Variables
 
-- `GROQ_API_KEY` must be set
+- `GOOGLE_AI_API_KEY` must be set (for Gemini model access)
+- `BREVO_API_KEY` must be set (for lead capture email delivery)
+- `NEXT_PUBLIC_APP_URL` must be set (for dashboard links in emails)
 
-### GROQ SDK Configuration
+### Google AI SDK Configuration
 
-- Install: `groq-sdk`
-- Model: `llama-3.3-70b-versatile` (recommended for speed)
-- Alternative: `mixtral-8x7b-32768` (lower cost, smaller context)
-- Temperature: 0 (deterministic for consistency)
+- Install: `@google/generative-ai` (already installed in PR-01)
+- Model: `gemini-1.5-flash` (recommended for speed and streaming)
+- Alternative: `gemini-1.5-pro` (better reasoning, higher cost)
+- Temperature: 0.7 (balanced creativity and consistency)
 - Max tokens: 1000 (sufficient for most responses)
+- Safety settings: Block harmful content (medical advice, dangerous activities)
+
+### Google ADK Integration
+
+- Install: `@google/genkit` and `@genkit-ai/googleai`
+- Orchestration flow:
+  1. **Input**: User message + session context
+  2. **Search Step**: RAG retrieval (top 5 chunks)
+  3. **Analyze Step**: Safety detection + intent classification
+  4. **Draft Step**: Gemini generation with context
+  5. **Output**: Streaming response with metadata
+
+### Brevo Configuration
+
+- Install: `@getbrevo/brevo` (already installed in PR-01)
+- Used for: Lead capture email delivery
+- Template: Professional email with dashboard link
 
 ### Rate Limiting
 

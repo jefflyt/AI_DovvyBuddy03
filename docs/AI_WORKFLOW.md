@@ -1,43 +1,4 @@
-# DovvyBuddy — Starter
-
-This repository contains a starter Next.js 14+ project scaffold for the DovvyBuddy MVP.
-
-## Quick start
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-1. Copy `.env.example` to `.env` and fill values
-
-   ```bash
-   cp .env.example .env
-   # edit .env
-   ```
-
-1. Run development server
-
-   ```bash
-   npm run dev
-   ```
-
-1. Verify health endpoint
-
-   ```bash
-   curl http://localhost:3000/api/health
-   # -> { "status": "ok" }
-   ```
-
-## Notes
-
-- This PR focuses on bootstrapping the project structure and tooling. Database models, content ingestion, and chat logic are implemented in subsequent PRs (PR-02..PR-05).
-- GROQ SDK is included for Phase 0 testing. The production LLM provider will be finalized in PR-11.
-
-For the AI‑assisted development workflow and prompt files, see [docs/AI_WORKFLOW.md](docs/AI_WORKFLOW.md).
-
-## AI-Driven Development Workflow
+# AI-Driven Development Workflow
 
 This repository is configured for **AI‑assisted software development** using GitHub Copilot in **Plan Mode** together with a set of powerful custom prompts.
 
@@ -47,7 +8,7 @@ The design of this repo enables a structured, reliable, and repeatable developme
 PSD → Master Plan → Feature Plan → PR Plan → Implementation → Refactor
 ```
 
-This README explains how to use the repo and the provided prompt files.
+This document explains how to use the repo and the provided prompt files.
 
 ---
 
@@ -73,7 +34,7 @@ src/
   tests/                   # Unit + integration tests
 
 AI_WORKFLOW.md             # Full workflow guide (required reading)
-README.md                 # This file
+README.md                 # Project README (setup)
 init_ai_workflow.sh        # Script to scaffold the required structure
 ```
 
@@ -103,20 +64,6 @@ code .
 ```
 
 Make sure GitHub Copilot Chat (Plan mode) is enabled.
-
----
-
-## 🧠 Workflow Overview (High-Level)
-
-1. **Create PSD**  
-2. **Generate Master Plan**  
-3. **Plan Each Feature**  
-4. **Turn Feature Plan → PR Plan**  
-5. **Generate Implementation Substeps**  
-6. **Implement Real Code**  
-7. **Refactor When Needed**
-
-Each step is performed via a slash command in VS Code Copilot Chat.
 
 ---
 

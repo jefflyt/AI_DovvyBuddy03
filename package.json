@@ -12,10 +12,11 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@google/generative-ai": "latest",
+    "@getbrevo/brevo": "^3.0.1",
+    "@google/generative-ai": "^0.21.0",
     "@prisma/client": "5",
-    "@sendgrid/mail": "^8.1.6",
     "autoprefixer": "^10.0.0",
+    "genkit": "^0.9.0",
     "groq-sdk": "latest",
     "next": "14",
     "postcss": "^8.0.0",
@@ -26,9 +27,11 @@
     "zod": "^3.0.0"
   },
   "devDependencies": {
+    "@types/node": "^25.0.3",
     "@types/react": "19.2.7",
     "eslint": "^8.46.0",
     "eslint-config-next": "^14.2.35",
+    "ts-node": "^10.9.2",
     "typescript": "5.9.3"
   }
 }

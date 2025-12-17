@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Home() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-b from-sky-50 to-white">
