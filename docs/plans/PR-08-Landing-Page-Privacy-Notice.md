@@ -1,7 +1,9 @@
 # PR-08: Landing Page & Privacy Notice
 
-**Branch:** `feat/landing-page-privacy` **Epic:** DovvyBuddy MVP - Phase 1
-**Status:** Not Started **Estimated Effort:** 4-6 hours
+**Branch:** `feat/landing-page-privacy`
+**Epic:** DovvyBuddy MVP - Phase 1
+**Status:** Not Started
+**Estimated Effort:** 4-6 hours
 
 ---
 

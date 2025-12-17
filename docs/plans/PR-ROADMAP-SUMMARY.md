@@ -1,7 +1,8 @@
 # DovvyBuddy - PR-Based Roadmap Summary
 
-**Date:** 17 December 2025 **Based on:** MASTER_PLAN.md v1.0 **Epic:**
-DovvyBuddy MVP (Phase 0 + Phase 1)
+**Date:** 17 December 2025
+**Based on:** MASTER_PLAN.md v1.0
+**Epic:** DovvyBuddy MVP (Phase 0 + Phase 1)
 
 ---
 

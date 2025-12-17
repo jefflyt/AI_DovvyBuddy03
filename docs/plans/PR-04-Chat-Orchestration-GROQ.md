@@ -1,7 +1,9 @@
 # PR-04: Chat Orchestration & GROQ Integration
 
-**Branch:** `feat/chat-service` **Epic:** DovvyBuddy MVP - Phase 0 **Status:**
-Not Started **Estimated Effort:** 8-10 hours
+**Branch:** `feat/chat-service`
+**Epic:** DovvyBuddy MVP - Phase 0
+**Status:** Not Started
+**Estimated Effort:** 8-10 hours
 
 ---
 

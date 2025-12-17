@@ -1,7 +1,9 @@
 # PR-09: UX Polish & Analytics Integration
 
-**Branch:** `feat/ux-analytics` **Epic:** DovvyBuddy MVP - Phase 1 **Status:**
-Not Started **Estimated Effort:** 6-8 hours
+**Branch:** `feat/ux-analytics`
+**Epic:** DovvyBuddy MVP - Phase 1
+**Status:** Not Started
+**Estimated Effort:** 6-8 hours
 
 ---
 

@@ -1,7 +1,9 @@
 # PR-06: Lead Capture & Delivery
 
-**Branch:** `feat/lead-capture` **Epic:** DovvyBuddy MVP - Phase 0 **Status:**
-Not Started **Estimated Effort:** 8-10 hours
+**Branch:** `feat/lead-capture`
+**Epic:** DovvyBuddy MVP - Phase 0
+**Status:** Not Started
+**Estimated Effort:** 8-10 hours
 
 ---
 

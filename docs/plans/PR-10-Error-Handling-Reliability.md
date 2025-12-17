@@ -1,7 +1,9 @@
 # PR-10: Error Handling & Reliability Improvements
 
-**Branch:** `feat/error-handling-reliability` **Epic:** DovvyBuddy MVP - Phase 1
-**Status:** Not Started **Estimated Effort:** 8-10 hours
+**Branch:** `feat/error-handling-reliability`
+**Epic:** DovvyBuddy MVP - Phase 1
+**Status:** Not Started
+**Estimated Effort:** 8-10 hours
 
 ---
 

@@ -1,7 +1,9 @@
 # PR-05: Chat UI (Frontend)
 
-**Branch:** `feat/chat-ui` **Epic:** DovvyBuddy MVP - Phase 0 **Status:** Not
-Started **Estimated Effort:** 6-8 hours
+**Branch:** `feat/chat-ui`
+**Epic:** DovvyBuddy MVP - Phase 0
+**Status:** Not Started
+**Estimated Effort:** 6-8 hours
 
 ---
 

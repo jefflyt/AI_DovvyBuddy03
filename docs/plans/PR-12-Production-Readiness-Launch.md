@@ -1,7 +1,9 @@
 # PR-12: Production Readiness & Launch Checklist
 
-**Branch:** `feat/production-launch` **Epic:** DovvyBuddy MVP - Phase 1
-**Status:** Not Started **Estimated Effort:** 6-8 hours
+**Branch:** `feat/production-launch`
+**Epic:** DovvyBuddy MVP - Phase 1
+**Status:** Not Started
+**Estimated Effort:** 6-8 hours
 
 ---
 

@@ -1,7 +1,9 @@
 # PR-11: LLM Migration & Performance Testing
 
-**Branch:** `feat/llm-migration-performance` **Epic:** DovvyBuddy MVP - Phase 1
-**Status:** Not Started **Estimated Effort:** 10-12 hours
+**Branch:** `feat/llm-migration-performance`
+**Epic:** DovvyBuddy MVP - Phase 1
+**Status:** Not Started
+**Estimated Effort:** 10-12 hours
 
 ---
 

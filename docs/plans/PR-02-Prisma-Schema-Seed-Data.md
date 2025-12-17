@@ -1,7 +1,9 @@
 # PR-02: Prisma Schema, Migrations & Seed Data
 
-**Branch:** `feat/database-schema` **Epic:** DovvyBuddy MVP - Phase 0
-**Status:** Not Started **Estimated Effort:** 6-8 hours
+**Branch:** `feat/database-schema`
+**Epic:** DovvyBuddy MVP - Phase 0
+**Status:** Not Started
+**Estimated Effort:** 6-8 hours
 
 ---
 
